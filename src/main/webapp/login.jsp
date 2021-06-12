@@ -47,18 +47,21 @@ function login(){
 		
 		let data = res.data;
 		let message=data;
-			if(message=="true")
-			{
+			//if(message=="true")
+			//{
 				alert("Login Success");
 				window.location.href="index.jsp";
-			}
+			/*}
 			else
 			{
 				alert(message);
-			}
+			})*/
 		
 		}
-	);
+	).catch(err=>{
+		let data = err.response.data;
+		alert(data.errorMessage);
+	});
 }
 </script>
 </body>
