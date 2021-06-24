@@ -76,4 +76,14 @@ public class MobileManagerDAO {
 
 	}
 
+	public List<CartManager> getAllMobileBrand() {
+		String sql = "select mobile_brand from mobiletypes";
+		List<CartManager> listMobileBrands = null;
+		listMobileBrands = jdbcTemplate.query(sql, (rs, rowNo) -> {
+			CartManager mobileDetails = new CartManager();
+			mobileDetails.setMobileBrand(rs.getString("mobile_brand"));
+			return mobileDetails;
+		});
+		return listMobileBrands;
+	}
 }

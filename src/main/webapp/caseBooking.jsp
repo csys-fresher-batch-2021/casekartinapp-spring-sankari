@@ -77,6 +77,9 @@
 			
 		});
 	}
+	function mobileBrands(){
+		let url="ListMobileBrands";
+	}
 	</script>
 </body>
 </html>

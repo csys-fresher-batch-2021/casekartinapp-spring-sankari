@@ -55,14 +55,12 @@ public class MobileManagerService {
 	}
 
 	public static List<CartManager> getAllMobileBrands() throws ServiceException {
-		List<CartManager> listMobileDetails = null;
-		listMobileDetails = mobileDAO.getAllMobilesList();
-		if (listMobileDetails == null) {
+		List<CartManager> listMobileBrands = null;
+		listMobileBrands = mobileDAO.getAllMobileBrand();
+		if (listMobileBrands == null) {
 			throw new ServiceException("Unable to Display");
-		} else {
-			List<String> mobileBrands = CartManager.stream().filter(CartManager -> CartManager.getMobileBrand());
 		}
-		return listMobileDetails;
+		return listMobileBrands;
 	}
 
 }
