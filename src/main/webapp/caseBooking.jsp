@@ -13,7 +13,7 @@
 	%>
 	<jsp:include page="header.jsp"></jsp:include>
 	<main class="containe-fluid">
-		<form onsubmit="booking()">
+		<form onsubmit="booking()" >
 			<br />
 			<%
 			String caseName = request.getParameter("caseType");
@@ -48,7 +48,7 @@
 				required autofocus /> <br />
 			<%
 			}else{ %>
-				<span id="friendName"></span>
+			<span id="friendName"></span>
 			<% }%>
 			<br /> <label for="noOfCases">No Of Cases *</label> <input
 				type="number" name="noOfCases" id="noOfCases" min="1" required
@@ -58,7 +58,7 @@
 	</main>
 	<script type="text/javascript">
 	function booking(){
-		
+		event.preventDefault();
 		let caseType=document.querySelector("#caseType").value;
 		let cost=document.querySelector("#price").value;
 		let friendName=document.querySelector("#friendName").value;
@@ -68,18 +68,15 @@
 		const queryParameter="?caseType="+ caseType +"&price="+ cost +"&mobileBrand="+ mobileBrand +"&mobileModel="+ mobileModel +"&noOfCases="+ noOfCases+"&friendName="+friendName;
 		let url = "BookingServlet"+ queryParameter;
 		fetch(url).then(res=> res.json()).then(res=>{  
-			let message=res;
-			if(message=="true" )
-				{
-					alert("Added to cart Successfully");
-					window.location.href="viewCart.jsp";
-				}
-			else{
-				alert("Cases not sufficient");
-			}
+			let data=res;
+			alert(data.infoMessage);
+			window.location.href="viewCart.jsp";
+		}).catch(err=>{
+			let data = err.response.data;
+			alert(data.errorMessage);
+			
 		});
 	}
-
 	</script>
 </body>
 </html>

@@ -32,16 +32,19 @@ public class RegisterManagerService {
 			RegisterManagerValidator.isAddressValid(regDetails.getAddress());
 			LoginRegisterUtil.isUserNameCharAllowed(regDetails.getUserName());
 			LoginRegisterUtil.isPasswordCharAllowed(regDetails.getPassword());
-			regDAO.addRegDetails(regDetails);
+			if(!regDAO.addRegDetails(regDetails)) {
+				throw new ServiceException("Unable to save");
+			}
+			return true;
 		} catch (ValidationException e) {
 			throw new ServiceException(e.getMessage(),e);
 		}catch(DBException e)
 		{
 
-			throw new ServiceException("You are Already Registered");
+			throw new ServiceException("Unable to save");
 
 		}
-		return true;			
+					
 	}
 	/**
 	 * list all user details 
@@ -51,11 +54,14 @@ public class RegisterManagerService {
 		List<RegisterManager> userDetails=null;
 		try {
 			userDetails=regDAO.getAllDetails();
+			if(userDetails==null) {
+				throw new ServiceException("Unble to display details");
+			}
+			return userDetails;
 		}catch(DBException e){
-			e.printStackTrace();
-			throw new ServiceException("Unble to display details");
+			throw new ServiceException("Unable to display details");
 		}
-		return userDetails;
+		
 				
 	}
 	/**
@@ -68,11 +74,14 @@ public class RegisterManagerService {
 		RegisterManager regDetails=null;
 		try {
 			regDetails=regDAO.getUserDetailsByUserName(userName);
+			if(regDetails==null) {
+				throw new ServiceException("Unable to display details");
+			}
+			return regDetails;	
 		}catch(DBException e){
-			e.printStackTrace();
 			throw new ServiceException("Unable to display details");
 		}
-		return regDetails;				
+					
 	}
 	
 }

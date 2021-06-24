@@ -53,17 +53,7 @@
 		</div>
 	</main>
 </body>
-<script>
-function search(){
-	let url="ListCasesServlet";
-	let content = "";
-	fetch(url).then(res=> res.json()).then(res=>{
-		let caseTypes=res;
-		console.log(caseTypes);
-	})
-}
-search();
-</script>
+
 
 </html>
 

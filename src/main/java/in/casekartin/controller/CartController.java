@@ -1,35 +1,26 @@
-package in.casekartin.servlet;
+package in.casekartin.controller;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.List;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.gson.Gson;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import in.casekartin.dto.Message;
 import in.casekartin.exception.ServiceException;
 import in.casekartin.model.CartManager;
 import in.casekartin.service.CartManagerService;
 
-/**
- * Servlet implementation class BookingServlet
- */
-@WebServlet("/BookingServlet")
-public class BookingServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@RestController
+public class CartController {
 	final Logger logger = Logger.getLogger(this.getClass().getName());
-	/**
-	 * @throws IOException 
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
+	@GetMapping("/BookingServlet")
+	public ResponseEntity<?> saveToCart(HttpServletRequest request) {
 		String caseType=request.getParameter("caseType");
 		String mobileBrand=request.getParameter("mobileBrand");	
 		String mobileModel=request.getParameter("mobileModel");	
@@ -50,26 +41,29 @@ public class BookingServlet extends HttpServlet {
 			logger.info(e1.getMessage());
 			
 		}
-		
-		Gson gson = new Gson();
-		String message=null;
-		String json=null;
 		try {
 			CartManagerService.addCartToBookedDetails(cart,userName);
-			message="true";		
+			Message message = new Message();
+			message.setInfoMessage("Successfully Added to Cart");
+			
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		} catch (ServiceException e) {
-			message=e.getMessage();
+			Message message = new Message();
+			message.setErrorMessage(e.getMessage());
+			return new ResponseEntity<>(message, HttpStatus.BAD_REQUEST);
 		}
-		json=gson.toJson(message);
-		PrintWriter out;
+	}
+	
+	@GetMapping("/ViewCartServlet")
+	public List<CartManager> getCartDetails(HttpSession session) {
+		String userName = (String) session.getAttribute("LOGGED_IN_USER");
+		List<CartManager> cart = null;
 		try {
-			out = response.getWriter();
-			out.print(json);
-			out.flush();
-		} catch (IOException e) {
-			logger.info(e.getMessage());
+			cart=CartManagerService.listByUserName(userName);
+		} catch (ServiceException e) {
+			e.printStackTrace();
 		}
-
+		return cart;
 	}
 
 }

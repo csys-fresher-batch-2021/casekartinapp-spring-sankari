@@ -11,18 +11,20 @@
 		<%		
 		String userName = (String) session.getAttribute("LOGGED_IN_USER");
 		%>
-		<form >			
-				<label for="name"> Name </label><input type="text" name="name" id="name" value=""
-				readonly required /><br /><br/>
-				<label for="email"> E-mail id </label><input type="text" name="email" id="email" value=""
-				readonly required /><br /><br/>
-				<label for="mobileNum"> Mobile Number </label><input type="text" name="mobileNum" id="mobileNum" value=""
-				readonly required /><br /><br/>
-				<label for="address"> Address </label><input type="text" name="address" id="address" value=""
-				readonly required /><br /><br/>
-				<label for="userName"> User Name </label><input type="text" name="userName" id="userName" value=""
-				readonly required /><br /><br/>
-				
+		<form>
+			<label for="name"> Name </label><input type="text" name="name"
+				id="name" value="" readonly required /><br />
+			<br /> <label for="email"> E-mail id </label><input type="text"
+				name="email" id="email" value="" readonly required /><br />
+			<br /> <label for="mobileNum"> Mobile Number </label><input
+				type="text" name="mobileNum" id="mobileNum" value="" readonly
+				required /><br />
+			<br /> <label for="address"> Address </label><input type="text"
+				name="address" id="address" value="" readonly required /><br />
+			<br /> <label for="userName"> User Name </label><input type="text"
+				name="userName" id="userName" value="" readonly required /><br />
+			<br />
+
 		</form>
 	</main>
 	<script type="text/javascript">
@@ -42,6 +44,6 @@
 	getUserdetails();
 	
 	</script>
-	
+
 </body>
 </html>

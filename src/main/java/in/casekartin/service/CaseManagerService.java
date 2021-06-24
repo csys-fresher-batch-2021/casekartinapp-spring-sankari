@@ -57,47 +57,44 @@ public class CaseManagerService {
 	 * @param caseName
 	 * @param cost
 	 * @return
+	 * @throws ServiceException 
 	 * @throws Exception 
 	 */
-	public static boolean deleteCaseType(String caseName)  {
-		boolean isDeleted = false;
+	public static boolean deleteCaseType(String caseName) throws ServiceException  {
 		try {
 			 
-			if (CaseManagerValidator.isCaseNameExist(caseName)) {
-				CaseManagerDAO.deleteCase(caseName);
-				isDeleted = true;
+			if (CaseManagerValidator.isCaseNameExist(caseName)&& CaseManagerDAO.deleteCase(caseName)) {				
+				return true;
+			}else {
+				throw new ServiceException("Unable to delete");
 			}
 			
 		} catch (DBException e) {
-			e.printStackTrace();
+			throw new ServiceException("Unable to delete");
 		}
-		return isDeleted;
-
 	}
 	/**
 	 * Return the active case Types
 	 * 
 	 * @return
 	 * @return
+	 * @throws ServiceException 
 	 * @throws Exception 
 	 */
-	public static Set<CaseManager> getActiveCaseTypes()  {
+	public static Set<CaseManager> getActiveCaseTypes() throws ServiceException  {
 		Set<CaseManager> caseTypes=null;
 		Set<CaseManager> activeCaseTypes = new HashSet<>();
 		try {
-			caseTypes = CaseManagerDAO.listAllCases();
-			for(CaseManager cases:caseTypes)
-			{
-				if(cases.getStatus().equalsIgnoreCase("active"))
-				{
-					CaseManager activeCases = new CaseManager(cases.getCaseType(),cases.getCost(),cases.getStatus());
-					activeCaseTypes.add(activeCases);
-				}
+			caseTypes = CaseManagerDAO.listActiveCases();
+			if(caseTypes==null) {
+				throw new ServiceException("Unable to display cases");
 			}
+			return caseTypes;
 		} catch (DBException e) {
 			e.printStackTrace();
 		}
 		return activeCaseTypes;
+
 	}
 	/**
 	 * return all case Types

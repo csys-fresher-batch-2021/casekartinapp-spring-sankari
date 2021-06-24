@@ -167,8 +167,11 @@ public class RegisterManagerDAO {
 			if (rs.next()) {
 				isValidUser = true;
 			}
+			else {
+				throw new DBException("Invalid Credentials");
+			}
 		} catch (ClassNotFoundException | SQLException e) {
-			throw new DBException("Invalid Credentials");
+			throw new DBException("unable to connect");
 		} finally {
 			ConnectionUtil.close(connection, pst, rs);
 		}

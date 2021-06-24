@@ -21,8 +21,7 @@ public class LoginService {
 	public static boolean isloginSuccess(String userName, String password,String role) throws ServiceException {
 		boolean isLoginSuccess=false;
 		try {
-			if(role.equalsIgnoreCase("user")) {
-				regDAO.isLoginVerified(userName,password);
+			if(role.equalsIgnoreCase("user") && regDAO.isLoginVerified(userName,password)) {
 				isLoginSuccess=true;
 			}else if(role.equalsIgnoreCase("admin")) {
 				LoginValidator.isLoginVerified(userName,password);
@@ -40,5 +39,4 @@ public class LoginService {
 		}
 		
 	}
-
 }

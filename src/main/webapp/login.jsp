@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
 <title>Login</title>
 </head>
 <body>
@@ -9,22 +10,20 @@
 	<main class="container-fluid">
 		<h3>CaseKartin</h3>
 		<form onsubmit="login()">
-			<label for="userName">user name</label> <input type="text" id="userName"
-				name="userName" placeholder="User Name" required autofocus />
+			<label for="userName">user name</label> <input type="text"
+				id="userName" name="userName" placeholder="User Name" required
+				autofocus /> <br /> <br /> <label for="password">Password</label>
+			<input type="password" id="password" name="password"
+				placeholder="Password" required autofocus /> <br /> <br /> <input
+				type="radio" name="role" id="role" value="admin" required><label
+				for="admin">Admin</label> <input type="radio" name="role" id="role"
+				value="user" required><label for="user">User</label> <br />
 			<br />
-			<br /> 
-			<label for="password">Password</label>
-			<input type="password" id="password" name="password" placeholder="Password" 
-				required autofocus /> <br />
-			<br />
-			<input type="radio" name="role" id="role" value="admin" required><label for="admin">Admin</label>
-			<input type="radio" name="role" id="role" value="user" required><label for="user">User</label>
-			<br /><br/>
-			<button class="btn btn-info"type="submit">Login</button>
-			<button type="reset" class="btn btn-info">Reset</button>		
+			<button class="btn btn-info" type="submit">Login</button>
+			<button type="reset" class="btn btn-info">Reset</button>
 		</form>
 	</main>
-<script type="text/javascript">
+	<script type="text/javascript">
 function login(){
 	event.preventDefault();
 	let userName=document.querySelector("#userName").value;
@@ -38,25 +37,15 @@ function login(){
 		}
 	});
 	console.log(selectedRole);
-		
-	
-	const queryParameter = "?userName=" + userName +"&password="+password +"&role="+selectedRole;
-	let url = "LoginServlet"+queryParameter;
-	const data = {}; //JSON Object => input
+	let url="LoginServlet";
+	let data = {"userName":userName,
+			      "password":password,
+			      "role":selectedRole} //JSON Object => input
 	axios.post(url,data).then(res=> {
 		
 		let data = res.data;
-		let message=data;
-			//if(message=="true")
-			//{
-				alert("Login Success");
-				window.location.href="index.jsp";
-			/*}
-			else
-			{
-				alert(message);
-			})*/
-		
+		alert(data.infoMessage);
+		window.location.href="index.jsp";
 		}
 	).catch(err=>{
 		let data = err.response.data;

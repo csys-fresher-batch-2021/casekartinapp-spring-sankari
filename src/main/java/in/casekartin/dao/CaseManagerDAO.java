@@ -31,7 +31,7 @@ public class CaseManagerDAO {
 			try {
 				connection = ConnectionUtil.getConnection();
 				// prepare data
-				String sql = "insert into caseTypes(casename,price) values (?,?)";
+				String sql = "insert into caseTypes(case_name,price) values (?,?)";
 				pst = connection.prepareStatement(sql);
 				pst.setString(1, caseName);
 				pst.setFloat(2, price);
@@ -66,16 +66,15 @@ public class CaseManagerDAO {
 		try {
 			connection = ConnectionUtil.getConnection();
 			// Retrieve data from table
-			String sql = "select casename,price,status from caseTypes";
+			String sql = "select case_name,price,status from caseTypes";
 			pst = connection.prepareStatement(sql);
 			rs = pst.executeQuery();
 			while (rs.next()) {
-				String caseName = rs.getString("casename");
-				Float price = rs.getFloat("price");
-				String status=rs.getString("status");
-
 				// Store the data in model
-				CaseManager product = new CaseManager(caseName, price,status);
+				CaseManager product = new CaseManager();
+				product.setCaseType(rs.getString("case_name"));
+				product.setCost(rs.getFloat("price"));
+				product.setStatus(rs.getString("status"));
 				// Store all products in list
 				caseTypes.add(product);
 			}
@@ -103,7 +102,7 @@ public class CaseManagerDAO {
 			// Get Connection
 			connection = ConnectionUtil.getConnection();
 			// prepare data
-			String sql = "update caseTypes set status='inactive' WHERE casename=?";
+			String sql = "update caseTypes set status='inactive' WHERE case_name=?";
 			
 			// Execute Query
 			pst = connection.prepareStatement(sql);
@@ -133,7 +132,7 @@ public class CaseManagerDAO {
 			try {
 				connection = ConnectionUtil.getConnection();
 				// prepare data
-				String sql = "update caseTypes set status='active' WHERE casename=?";
+				String sql = "update caseTypes set status='active' WHERE case_name=?";
 				pst = connection.prepareStatement(sql);
 				pst.setString(1, caseName);
 				
@@ -154,5 +153,35 @@ public class CaseManagerDAO {
 			}
 			return updated;
 		
+	}
+	public static Set<CaseManager> listActiveCases() throws DBException {
+		Set<CaseManager> caseTypes = new HashSet<>();
+		Connection connection = null;
+		PreparedStatement pst = null;
+		ResultSet rs=null;
+		try {
+			connection = ConnectionUtil.getConnection();
+			// Retrieve data from table
+			String sql = "select case_name,price,status from caseTypes where status='active'";
+			pst = connection.prepareStatement(sql);
+			rs = pst.executeQuery();
+			while (rs.next()) {
+				// Store the data in model
+				CaseManager product = new CaseManager();
+				product.setCaseType(rs.getString("case_name"));
+				product.setCost(rs.getFloat("price"));
+				product.setStatus(rs.getString("status"));
+				// Store all products in list
+				caseTypes.add(product);
+			}
+		} catch (ClassNotFoundException |SQLException e) {
+			e.printStackTrace();
+			throw new DBException("Unable to display case",e);
+		}
+		finally {
+		
+			ConnectionUtil.close(connection, pst, rs);
+		}
+		return caseTypes;
 	}
 }

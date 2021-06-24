@@ -2,6 +2,7 @@ package in.casekartin.validator;
 
 import java.util.Set;
 
+import in.casekartin.exception.ServiceException;
 import in.casekartin.exception.ValidationException;
 import in.casekartin.model.CaseManager;
 import in.casekartin.service.CaseManagerService;
@@ -19,8 +20,9 @@ public class CaseManagerValidator {
 	 * @param caseName
 	 * @return
 	 * @throws ValidationException 
+	 * @throws ServiceException 
 	 */
-	public static boolean isCaseNameNotExist(String caseName) throws ValidationException{
+	public static boolean isCaseNameNotExist(String caseName) throws ValidationException, ServiceException{
 		Set<CaseManager> caseTypes = CaseManagerService.getAllCaseTypes();
 		boolean searchCase =true;
 		for (CaseManager cases : caseTypes) {
@@ -34,7 +36,7 @@ public class CaseManagerValidator {
 		}
 	return searchCase;
 	}
-	public static boolean isCaseNameExistActiveCaseTypes(String caseName)
+	public static boolean isCaseNameExistActiveCaseTypes(String caseName) throws ServiceException
 	{
 		boolean searchCase=false;
 		Set<CaseManager> activeCaseTypes=CaseManagerService.getActiveCaseTypes();
@@ -52,8 +54,9 @@ public class CaseManagerValidator {
 	 * return caseName
 	 * @param caseName
 	 * @return
+	 * @throws ServiceException 
 	 */
-	public static boolean isCaseNameExist(String caseName){
+	public static boolean isCaseNameExist(String caseName) throws ServiceException{
 		Set<CaseManager> caseTypes = CaseManagerService.getActiveCaseTypes();
 		boolean searchCase =false;
 			for (CaseManager cases : caseTypes) {
