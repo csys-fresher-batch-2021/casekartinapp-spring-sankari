@@ -12,14 +12,14 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
 	integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
 	crossorigin="anonymous"></script>
-<script>
+<!-- <script>
 	let url="ListCasesServlet";
 	let content = "";
 	fetch(url).then(res=> res.json()).then(res=>{
 	let caseTypes=res;
 	console.log(caseTypes);
-})
-</script>
+});
+</script> -->
 <%@page import="java.util.Set"%>
 <%@page import="in.casekartin.service.CaseManagerService"%>
 <%@page import="in.casekartin.model.CaseManager"%>

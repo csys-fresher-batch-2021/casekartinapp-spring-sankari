@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,11 +38,13 @@ public class CaseController {
 
 	}
 
-	@GetMapping("/addMobileServlet")
-	public ResponseEntity<?> addMobiles(@RequestBody CartManager data) {
+	@PostMapping("/addMobileServlet")
+	public ResponseEntity<?> addMobiles(@RequestBody CartManager params) {
 		try {
-			MobileManagerService.addMobiles(data);
-			return new ResponseEntity<>(HttpStatus.OK);
+			MobileManagerService.addMobiles(params);
+			Message message = new Message();
+			message.setInfoMessage("Successfully Added mobiles");
+			return new ResponseEntity<>(message, HttpStatus.OK);
 		} catch (ServiceException | DBException e) {
 			Message message = new Message();
 			message.setErrorMessage(e.getMessage());
@@ -64,15 +67,4 @@ public class CaseController {
 
 	}
 
-	@GetMapping("ListMobileBrands")
-	public List<CartManager> getAllMobileBrands() {
-		List<CartManager> listMobileBrands = null;
-		try {
-			listMobileBrands = MobileManagerService.getAllMobileBrands();
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-		return listMobileBrands;
-
-	}
 }

@@ -30,30 +30,7 @@
 			<br />
 			<button type="submit" class="btn btn-info">Submit</button>
 		</form>
-		<script type="text/javascript">
-function register(){
-	event.preventDefault();
-	let name=document.querySelector("#name").value;
-	let email=document.querySelector("#email").value;
-	let mobileNum=document.querySelector("#mobileNum").value;
-	let address=document.querySelector("#address").value;
-	let userName=document.querySelector("#userName").value;
-	let password=document.querySelector("#password").value;
-	console.log(name);
-	const queryParameter = "?name=" + name + "&email=" + email +"&mobileNum=" + mobileNum +"&address=" + address +"&userName=" + userName +"&password="+password;
-	let url = "RegistrationServlet"+queryParameter;	
-	const data={};
-	axios.post(url,data).then(res=> {
-		let data=res.data;
-		alert(data.infoMessage);
-		window.location.href="index.jsp";
-	}
-	).catch(err=>{
-		let data = err.response.data;
-		alert(data.errorMessage);
-	});
-}
-</script>
+		<script src="js/registration.js"> </script>
 	</main>
 </body>
 </html>

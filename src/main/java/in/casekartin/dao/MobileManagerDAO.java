@@ -44,7 +44,8 @@ public class MobileManagerDAO {
 
 	private Integer getCaseId(String caseName) {
 		String sql = "select id from casetypes where case_name=?";
-		return jdbcTemplate.queryForObject(sql, Integer.class, caseName);
+		Integer id = jdbcTemplate.queryForObject(sql, Integer.class, caseName.trim());
+		return id;
 	}
 
 	public List<CartManager> getAllMobilesList() {
@@ -76,14 +77,29 @@ public class MobileManagerDAO {
 
 	}
 
-	public List<CartManager> getAllMobileBrand() {
-		String sql = "select mobile_brand from mobiletypes";
+	public List<CartManager> getAllMobileBrand(String caseName) {
+		Integer caseId = getCaseId(caseName);
+		String sql = "select mobile_brand from mobiletypes where case_id=?";
 		List<CartManager> listMobileBrands = null;
 		listMobileBrands = jdbcTemplate.query(sql, (rs, rowNo) -> {
 			CartManager mobileDetails = new CartManager();
 			mobileDetails.setMobileBrand(rs.getString("mobile_brand"));
 			return mobileDetails;
-		});
+		}, caseId);
 		return listMobileBrands;
 	}
+
+	public List<CartManager> getAllMobileModels(String caseName, String mobileBrand) {
+		Integer caseId = getCaseId(caseName);
+		String sql = "select mobile_model from mobiletypes where case_id=? and mobile_brand=?";
+		List<CartManager> listMobileModels = null;
+		listMobileModels = jdbcTemplate.query(sql, (rs, rowNo) -> {
+			CartManager mobileDetails = new CartManager();
+			mobileDetails.setMobileModel(rs.getString("mobile_model"));
+
+			return mobileDetails;
+		}, caseId, mobileBrand);
+		return listMobileModels;
+	}
+
 }

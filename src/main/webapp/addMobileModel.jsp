@@ -1,5 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"
+	integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ=="
+	crossorigin="anonymous" referrerpolicy="no-referrer">
+</script>
 <head>
 <title>Add Mobile Model</title>
 </head>
@@ -7,7 +12,7 @@
 	<jsp:include page="header.jsp"></jsp:include>
 	<main class="container-fluid">
 		<h3>Add Mobile Model</h3>
-		<form onsubmit="addMobile()">
+		<form onsubmit="addMobile()" method="post">
 			<% String caseName=request.getParameter("caseType"); %>
 			<label for="caseName">Case Name </label><input type="text"
 				name="caseName" id="caseName" placeholder="Enter Case Name"
@@ -28,20 +33,24 @@
 		</form>
 	</main>
 	<script type="text/javascript">
-function addMobile(){
+	function addMobile(){
 	event.preventDefault();
+	let caseName=document.querySelector("#caseName").value;
 	let mobileBrand=document.querySelector("#mobileBrand").value;
 	let mobileModel=document.querySelector("#mobileModel").value;
 	let noOfCases=document.querySelector("#noOfCases").value;
-	let url="addMobileServlet";
-	let data={"mobileBrand": mobileBrand,
+	let data={"caseName":caseName,
+			"mobileBrand": mobileBrand,
 			"mobileModel":mobileModel,
 			"noOfCases":noOfCases};
-	fetch(url,data).then(res=> res.json()).then(res=>{
-		let message=res;
-		window.location.href="listMobiles.jsp";
+	let url="addMobileServlet";
+	axios.post(url,data).then(res=> {
 		
-	}).catch(err=>{
+		let data = res.data;
+		alert(data.infoMessage);
+		window.location.href="listMobiles.jsp";
+		}
+	).catch(err=>{
 		let data = err.response.data;
 		alert(data.errorMessage);
 	});

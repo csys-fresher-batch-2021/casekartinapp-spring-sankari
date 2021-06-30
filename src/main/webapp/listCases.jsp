@@ -35,7 +35,7 @@ function getAllCases(){
 		console.log(cases);
 		let content = "";
 		let serial=1;
-		for(let caselist of cases){ //  <a class="btn btn-danger" href="link.html">Cancle</a>
+		for(let caselist of cases){ 
 			content += "<tr><td>"+serial+
 			"</td><td>"+caselist.caseType+
 			"</td><td>Rs."+caselist.cost+

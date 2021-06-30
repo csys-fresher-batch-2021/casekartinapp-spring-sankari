@@ -1,11 +1,13 @@
 package in.casekartin.model;
+
 import java.io.Serializable;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @Data
 @NoArgsConstructor
-public class CartManager implements Serializable{
+public class CartManager implements Serializable {
 
 	/**
 	 * 
@@ -19,6 +21,6 @@ public class CartManager implements Serializable{
 	private String friendsName;
 	private int noOfCases;
 	private int orderId;
-	private int mobileId;	
+	private int mobileId;
 
 }

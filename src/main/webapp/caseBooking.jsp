@@ -1,44 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js">
+</script>
 <meta charset="ISO-8859-1">
 <title>Booking</title>
 </head>
-<body>
+<body >
 	<%
 	String userName = (String) session.getAttribute("LOGGED_IN_USER");
 	if (userName == null) {
 		response.sendRedirect("login.jsp");
 	}
+	String caseName = request.getParameter("caseType");
+	String cost = request.getParameter("price");
 	%>
 	<jsp:include page="header.jsp"></jsp:include>
 	<main class="containe-fluid">
-		<form onsubmit="booking()" >
+		<form onsubmit="booking()" method="post" >
 			<br />
-			<%
-			String caseName = request.getParameter("caseType");
-			String cost = request.getParameter("price");
-			%>
+
 			<label for="caseType">Case Type</label> <input type="text"
 				name="caseType" id="caseType" value="<%=caseName%>" readonly /><br />
 			<br /> <label for="price">Price</label> <input type="text"
 				name="price" id="price" value="<%=cost%>" readonly /><br /> <br />
 			<br /> <label for="mobileBrand">Select Mobile Brand *</label> <select
-				name="mobileBrand" id="mobileBrand" required>
-				<option value="" disabled selected hidden>Choose a Mobile
-					Brand</option>
-				<option value="vivo">vivo</option>
-				<option value="samsung">samsung</option>
-				<option value="apple">Apple</option>
-				<option value="lenovo">Lenovo</option>
+				name="mobileBrand" id="mobileBrand" onchange="mobileModels()"required>	
 			</select><br /> <br /> <br /> <label for="mobileModel">Select
-				Mobile Model *</label> <select name="mobileModel" id="mobileModel" required>
-				<option value="" disabled selected hidden>Choose a Mobile
-					Model</option>
-				<option value="Galaxy M30s">Galaxy M30s</option>
-				<option value="V7 Plus">V7 Plus</option>
-				<option value="Zuk Z2 Plus">Zuk Z2 Plus</option>
-				<option value="iPhone 12 pro max">pocoiPhone 12 pro max</option>
+				Mobile Model *</label> <select name="mobileModel" id="mobileModel" required disabled>		
 			</select><br /> <br /> <br>
 			<%
 			if (caseName != null &&  caseName.trim().equalsIgnoreCase("Friends Name Tag Custom Case")) {
@@ -56,31 +46,6 @@
 			<button type="submit" class="btn btn-primary">Add to Cart</button>
 		</form>
 	</main>
-	<script type="text/javascript">
-	function booking(){
-		event.preventDefault();
-		let caseType=document.querySelector("#caseType").value;
-		let cost=document.querySelector("#price").value;
-		let friendName=document.querySelector("#friendName").value;
-		let mobileBrand=document.querySelector("#mobileBrand").value;
-		let mobileModel=document.querySelector("#mobileModel").value;
-		let noOfCases=document.querySelector("#noOfCases").value;
-		const queryParameter="?caseType="+ caseType +"&price="+ cost +"&mobileBrand="+ mobileBrand +"&mobileModel="+ mobileModel +"&noOfCases="+ noOfCases+"&friendName="+friendName;
-		let url = "BookingServlet"+ queryParameter;
-		fetch(url).then(res=> res.json()).then(res=>{  
-			let data=res;
-			alert(data.infoMessage);
-			window.location.href="viewCart.jsp";
-		}).catch(err=>{
-			let data = err.response.data;
-			alert(data.errorMessage);
-			
-		});
-	}
-	function mobileBrands(){
-		event.preventDefault();
-		let url="ListMobileBrands";
-	}
-	</script>
+	<script src="js/casekartin.js"></script>
 </body>
 </html>

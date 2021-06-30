@@ -54,13 +54,22 @@ public class MobileManagerService {
 		mobileDAO.increaseByOne(mobileId);
 	}
 
-	public static List<CartManager> getAllMobileBrands() throws ServiceException {
+	public static List<CartManager> getAllMobileBrands(String caseName) throws ServiceException {
 		List<CartManager> listMobileBrands = null;
-		listMobileBrands = mobileDAO.getAllMobileBrand();
+		listMobileBrands = mobileDAO.getAllMobileBrand(caseName);
 		if (listMobileBrands == null) {
 			throw new ServiceException("Unable to Display");
 		}
 		return listMobileBrands;
+	}
+
+	public static List<CartManager> getAllMobileModels(String caseName, String mobileBrand) throws ServiceException {
+		List<CartManager> listMobileModels = null;
+		listMobileModels = mobileDAO.getAllMobileModels(caseName, mobileBrand);
+		if (listMobileModels == null) {
+			throw new ServiceException("Unable to Display");
+		}
+		return listMobileModels;
 	}
 
 }

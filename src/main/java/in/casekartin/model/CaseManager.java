@@ -4,9 +4,10 @@ import java.io.Serializable;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 @NoArgsConstructor
 @Data
-public class CaseManager implements Serializable{
+public class CaseManager implements Serializable {
 	/**
 	 * 
 	 */

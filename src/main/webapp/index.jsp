@@ -4,7 +4,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CaseKartinApp</title>
 </head>
-<body onload="search()">
+<body>
 	<jsp:include page="header.jsp"></jsp:include>
 	<main class="container-fluid">
 		<h3>Welcome To CaseKartin App</h3>

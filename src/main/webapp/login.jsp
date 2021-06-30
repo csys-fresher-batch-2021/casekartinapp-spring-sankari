@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
 <script
-	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+	src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js">
+</script>
 <title>Login</title>
 </head>
 <body>
@@ -24,7 +25,7 @@
 		</form>
 	</main>
 	<script type="text/javascript">
-function login(){
+		function login(){
 	event.preventDefault();
 	let userName=document.querySelector("#userName").value;
 	let password=document.querySelector("#password").value;
@@ -41,6 +42,7 @@ function login(){
 	let data = {"userName":userName,
 			      "password":password,
 			      "role":selectedRole} //JSON Object => input
+	console.log(data);
 	axios.post(url,data).then(res=> {
 		
 		let data = res.data;
@@ -52,6 +54,6 @@ function login(){
 		alert(data.errorMessage);
 	});
 }
-</script>
+	</script>
 </body>
 </html>

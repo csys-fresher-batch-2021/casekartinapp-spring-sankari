@@ -24,10 +24,12 @@ public class CartManagerDAO {
 	public boolean save(CartManager cartDetails, String userName) {
 		int userId = findIdByUserName(userName);
 		int mobile_id = findIdByMobileModel(cartDetails);
+		System.out.println(cartDetails);
 		Object[] params = { mobile_id, cartDetails.getNoOfCases(), userId, cartDetails.getPrice(),
 				cartDetails.getFriendsName() };
 		int rows = jdbcTemplate.update(
 				"insert into cart(mobile_id,no_of_cases,user_id,price,friends_name) values ( ?,?,?,?,?) ", params);
+		System.out.println("rows" + rows);
 		return rows == 1;
 
 	}
@@ -36,10 +38,11 @@ public class CartManagerDAO {
 		List<CartManager> listCartDetails = null;
 		try {
 			int userId = findIdByUserName(userName);
+
 			String sql = "select c.id,ct.case_name,c.price,m.mobile_brand,m.mobile_model,c.no_of_cases \r\n"
 					+ "from casetypes as ct\r\n" + "inner join mobiletypes as m on m.case_id=ct.id\r\n"
 					+ "inner join cart as c on c.mobile_id=m.id\r\n"
-					+ "inner join userdetails as u on u.id=c.user_id\r\n" + "where c.status='active' and c.id=?";
+					+ "inner join userdetails as u on u.id=c.user_id\r\n" + "where c.status='active' and u.id=?";
 			Object[] params = { userId };
 			listCartDetails = jdbcTemplate.query(sql, (rs, rowNo) -> {
 				CartManager cartDetails = new CartManager();
@@ -54,6 +57,7 @@ public class CartManagerDAO {
 		} catch (DataAccessException e) {
 			throw new DBException("Unable to display details");
 		}
+		System.out.println("viewCartServlet " + userName + "id" + listCartDetails);
 		return listCartDetails;
 
 	}
@@ -66,13 +70,10 @@ public class CartManagerDAO {
 	}
 
 	private static Integer findIdByCaseName(String caseName) {
-		System.out.println(caseName);
 		String sql = "select id from casetypes where case_name = ?";
-		try {
-			return jdbcTemplate.queryForObject(sql, Integer.class, caseName);
-		} catch (DataAccessException e) {
-			throw new RuntimeException("Bad");
-		}
+		Integer id = jdbcTemplate.queryForObject(sql, Integer.class, caseName.trim());
+
+		return id;
 	}
 
 	private static int findIdByUserName(String userName) {
